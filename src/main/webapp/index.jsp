@@ -12,13 +12,19 @@
 </head>
 <body>
 <h1>index page</h1>
-<form action="/signIn" method="post">
-  <input name="email" placeholder="Email"><br>
-  <input type="password" name="password" placeholder="Password"><br>
+<form action="/user" method="post">
+  <input type="hidden" name="action" value="signIn"><!--跳转后台用的-->
+  <input name="email" placeholder="Email" value="tom@tom.com"><br>
+  <input type="password" name="password" placeholder="Password" value="123"><br>
   <input type="submit" value="Sign in">
 </form>
+<%
+  String message = (String) request.getAttribute("message");
+  if (message != null) {
+    out.print(message);
+  }
+%>
 <hr>
 <a href="sign-up.jsp">Sign up</a>
-</select>
 </body>
 </html>
