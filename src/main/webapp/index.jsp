@@ -13,7 +13,7 @@
 <body>
 <h1>index page</h1>
 <form action="/user" method="post">
-  <input type="hidden" name="action" value="signIn"><!--跳转后台用的-->
+  <input type="hidden" name="action" value="signIn">
   <input name="email" placeholder="Email" value="tom@tom.com"><br>
   <input type="password" name="password" placeholder="Password" value="123"><br>
   <input type="submit" value="Sign in">
