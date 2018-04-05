@@ -18,12 +18,7 @@
   <input type="password" name="password" placeholder="Password" value="123"><br>
   <input type="submit" value="Sign in">
 </form>
-<%
-  String message = (String) request.getAttribute("message");
-  if (message != null) {
-    out.print(message);
-  }
-%>
+${requestScope.message}
 <hr>
 <a href="sign-up.jsp">Sign up</a>
 </body>

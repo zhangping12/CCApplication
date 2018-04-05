@@ -1,4 +1,3 @@
-
 package demo.servlet;
 
 import demo.util.DB;
@@ -45,7 +44,7 @@ public class UserAction extends HttpServlet {
 
             if (resultSet.next()) {
                 req.getSession().setAttribute("username", resultSet.getString("username"));
-                resp.sendRedirect("/book?action=queryAll"); // *****
+                resp.sendRedirect("/book?action=queryAll"); // GET
             } else {
                 req.setAttribute("message", "Invalid email or password.");
                 req.getRequestDispatcher("index.jsp").forward(req, resp);
@@ -67,12 +66,12 @@ public class UserAction extends HttpServlet {
             String queryEmail = "SELECT * FROM db.user WHERE email = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(queryEmail);
             preparedStatement.setString(1, email);
-            ResultSet resultSet = preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery(); // DQL
 
             if (resultSet.next()) {
                 req.setAttribute("message", "Email is already existed.");
                 req.getRequestDispatcher("sign-up.jsp").forward(req, resp);
-                return;
+                return; // *****
             }
 
             String sql = "INSERT INTO db.user VALUE(NULL, ?, ?, ?)";

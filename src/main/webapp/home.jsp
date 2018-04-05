@@ -1,20 +1,23 @@
 <%@ page import="java.util.List" %>
 <%@ page import="demo.model.Book" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
 <head>
     <title>home page</title>
+    <script>
+        function del() {
+            return confirm("DELETE?");
+        }
+    </script>
 </head>
 <body>
-<%
-    String username = (String) session.getAttribute("username");
-    if (username == null) {
-        response.sendRedirect("index.jsp");
-    }
-%>
+<c:if test="${sessionScope.username eq null}">
+    <c:redirect url="index.jsp"/>
+</c:if>
 <h1>home page</h1>
-<p><%=session.getAttribute("username")%>
-</p>
+<p>${sessionScope.username}</p>
 <hr>
 <a href="/user?action=signOut">Sign out</a>
 <hr>
@@ -29,35 +32,50 @@
     <input type="submit" value="Add Book">
 </form>
 <hr>
+<pre>
+    c:choose
+        c:when
+        c:when
+        ...
+        c:otherwise
+
+    switch
+        case
+        case
+        ...
+        default
+</pre>
 <table border="1">
-    <tr>
-        <th>ID</th>
-        <th>TITLE</th>
-        <th>AUTHOR</th>
-        <th>PUBLISH TIME</th>
-        <th>PRICE</th>
-        <th>AMOUNT</th>
-        <th>PICTURE</th>
-        <th colspan="2">OPERATION</th>
-    </tr>
-    <%
-        List<Book> books = (List<Book>) session.getAttribute("books"); //
-        for (Book book : books) {
-    %>
-    <tr>
-        <td><%= book.getId()%></td>
-        <td><%= book.getTitle()%></td>
-        <td><%= book.getAuthor()%></td>
-        <td><%= book.getPubTime()%></td>
-        <td><%= book.getPrice()%></td>
-        <td><%= book.getAmount()%></td>
-        <td><%= book.getPicture()%></td>
-        <td><a href="/book?action=search&id=<%=book.getId()%>">EDIT</a></td>
-        <td><a href="/book?action=remove&id=<%=book.getId()%>">REMOVE</a></td>
-    </tr>
-    <%
-        }
-    %>
+    <c:choose>
+        <c:when test="${fn:length(sessionScope.books) eq 0}">
+            NO RECORDS.
+        </c:when>
+        <c:otherwise>
+            <tr>
+                <th>COUNT</th>
+                <th>TITLE</th>
+                <th>AUTHOR</th>
+                <th>PUBLISH TIME</th>
+                <th>PRICE</th>
+                <th>AMOUNT</th>
+                <th>PICTURE</th>
+                <th colspan="2">OPERATION</th>
+            </tr>
+        </c:otherwise>
+    </c:choose>
+    <c:forEach var="book" items="${sessionScope.books}" varStatus="vs">
+        <tr>
+            <td>${vs.count}</td>
+            <td>${book.title}</td>
+            <td>${book.author}</td>
+            <td>${book.pubTime}</td>
+            <td>${book.price}</td>
+            <td>${book.amount}</td>
+            <td>${book.picture}</td>
+            <td><a href="/book?action=search&id=${book.id}">EDIT</a></td>
+            <td><a href="/book?action=remove&id=${book.id}" onclick="return del()">REMOVE</a></td>
+        </tr>
+    </c:forEach>
 </table>
 </body>
 </html>
