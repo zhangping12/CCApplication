@@ -82,7 +82,7 @@ public class UserAction extends HttpServlet {
             preparedStatement.setString(3, password);
             preparedStatement.executeUpdate(); // DML INSERT UPDATE DELETE
 
-            DB.close(null, preparedStatement, connection);
+            DB.close(resultSet, preparedStatement, connection);
 
             resp.sendRedirect("index.jsp");
         } catch (SQLException e) {
